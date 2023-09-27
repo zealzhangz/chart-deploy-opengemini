@@ -1,0 +1,270 @@
+[common]
+  meta-join = ["meta_addr_1:8092", "meta_addr_2:8092", "meta_addr_3:8092"]
+  # the shared storage-based store whether support HA.
+  # SQL: control read and write to right store
+  # STORE: control whether DBPT autoload
+  # META: control whether to takeover
+  # ha-enable = false
+  # executor-memory-size-limit = "0"
+  # executor-memory-wait-time = "0s"
+  # pprof-enabled = false
+  cpu-num = cpu-num-placeholder
+  # cpu-allocation-ratio = 1
+  memory-size = "memory-size-placeholder"
+  # ignore-empty-tag = false
+  # report-enable = true
+
+[meta]
+  bind-address = "addr-placeholder:8088"
+  http-bind-address = "addr-placeholder:8091"
+  rpc-bind-address = "addr-placeholder:8092"
+  dir = "/opt/openGemini/data/meta"
+  domain = "pod-domain"
+  #
+  # expand-shards-enable = false
+  # retention-autocreate = true
+  # election-timeout = "1s"
+  # heartbeat-timeout = "1s"
+  # leader-lease-timeout = "500ms"
+  # commit-timeout = "50ms"
+  # cluster-tracing = true
+  # logging-enabled = true
+  # lease-duration = "1m0s"
+  # meta-version = 2
+  # split-row-threshold = 10000
+  # imbalance-factor = 0.3
+  # auth-enabled = false
+  # https-enabled = false
+  # https-certificate = ""
+  # https-private-key = ""
+  # ptnum-pernode = 1
+
+[coordinator]
+  # write-timeout = "10s"
+  # shard-writer-timeout = "10s"
+  # shard-mapper-timeout = "10s"
+  # max-remote-write-connections = 100
+  # max-remote-read-connections = 100
+  # shard-tier = "warm"
+  # rp-limit = 100
+  # force-broadcast-query = false
+  time-range-limit = ["168h", "24h"]
+  # tag-limit = 0
+
+[http]
+  bind-address = "addr-placeholder:8086"
+  flight-address = "addr-placeholder:8087"
+  # flight-enabled = false
+  # flight-ch-factor = 2
+  # flight-auth-enabled = false
+  auth-enabled = true
+  weakpwd-path = "/opt/openGemini/config/weakpasswd.properties"
+  # pprof-enabled = false
+  # max-connection-limit = 0
+  # max-concurrent-write-limit = 0
+  # max-enqueued-write-limit = 0
+  # enqueued-write-timeout = "30s"
+  # max-concurrent-query-limit = 0
+  # max-enqueued-query-limit = 0
+  # enqueued-query-timeout = "5m"
+  # chunk-reader-parallel = 0
+  # max-body-size = 0
+  # https-enabled = false
+  # https-certificate = ""
+  # https-private-key = ""
+  # time-filter-protection = false
+
+[data]
+  store-ingest-addr = "addr-placeholder:8400"
+  store-select-addr = "addr-placeholder:8401"
+  store-data-dir = "/opt/openGemini/data"
+  store-wal-dir = "/opt/openGemini/data"
+  store-meta-dir = "/opt/openGemini/data/meta"
+  domain = "pod-domain"
+  # wal-enabled = true
+  # wal-sync-interval = "100ms"
+  # wal-replay-parallel = false
+  # wal-replay-async = false
+  # imm-table-max-memory-percentage = 10
+  # write-cold-duration = "5s"
+  shard-mutable-size-limit = "250m"
+  node-mutable-size-limit = "1024m"
+  # max-write-hang-time = "15s"
+  max-concurrent-compactions = 4
+  # compact-full-write-cold-duration = "1h"
+  max-full-compactions = 1
+  # compact-throughput = "80m"
+  # compact-throughput-burst = "90m"
+  # compact-recovery = false
+  # snapshot-throughput = "64m"
+  # snapshot-throughput-burst = "70m"
+  # Whether to cache data blocks in hot shard
+  cache-table-data-block = false
+  # Whether to cache meta blocks in hot shard
+  cache-table-meta-block = false
+  # Whether to use mmap ability
+  enable-mmap-read = false
+  # The limit of read cache use size, The unit is byte, less than or equal to 0 is unused, recommend 5368709120 if use
+  read-cache-limit = 0
+  # write-concurrent-limit = 0
+  # open-shard-limit = 0
+  # readonly = false
+  # downsample-write-drop = true
+  # query will be estimated abd limited by resource manager
+  # max-wait-resource-time = "0s"
+  # max-series-parallelism-num = 0
+  max-shards-parallelism-num = 128
+  # when create group cursor, the parallelism num will be estimated by resource allocator according to the chunk-reader-threshold and min-chunk-reader-concurrency
+  # chunk-reader-threshold = 0
+  # min-chunk-reader-concurrency = 0
+  # minimum shards number for initializing shards in parallel
+  # min-shards-concurrency = 0
+  # max-downsample-task-concurrency defines the max downsample task num at the same time
+  # max-downsample-task-concurrency = 0
+  # maximum number of series a node can hold per database. 0: unlimited
+  # max-series-per-database = 0
+  # manage query file handle, default enable_query_file_handle_cache is true, default max_query_cached_file_handles is cpuNum*8
+  # enable_query_file_handle_cache = true
+  # if max_query_cached_file_handles is 0, default query_cached_file_handles is used
+  # max_query_cached_file_handles = 0
+
+  # Determines whether the lazy shard open is enabled.
+  lazy-load-shard-enable = true
+
+  # The time range for thermal shards.
+  # thermal-shard-start-duration = "0s"
+  # thermal-shard-end-duration = "0s"
+
+# [data.ops-monitor]
+  # store-http-addr = "addr-placeholder:8402"
+  # auth-enabled = false
+  # store-https-enabled = false
+  # store-https-certificate = ""
+
+# [retention]
+  # enabled = true
+  # check-interval = "30m"
+
+# [downsample]
+  # enable = true
+  # check-interval = "30m"
+
+[logging]
+  # format = "auto"
+  level = "info"
+  path = "/opt/openGemini/logs"
+  max-size = "64m"
+  max-num = 32
+  max-age = 30
+  compress-enabled = true
+
+# [tls]
+  # min-version = "TLS1.2"
+  # ciphers = [
+    # "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+    # "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+    # "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+    # "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+  # ]
+
+# [monitor]
+  # pushers = ""
+  # store-enabled = false
+  # store-database = "_internal"
+  # store-interval = "10s"
+  # store-path = "/tmp/openGemini/metric/metric.data"
+  # compress = false
+  # http-endpoint = "addr-placeholder:8086"
+  # username = ""
+  # password = ""
+
+[gossip]
+  # enabled = true
+  # log-enabled = true
+  bind-address = "addr-placeholder"
+  store-bind-port = 8011
+  meta-bind-port = 8010
+  # prob-interval = '1s'
+  # suspicion-mult = 4
+  members = ["meta_addr_1:8010", "meta_addr_2:8010", "meta_addr_3:8010"]
+
+[spdy]
+  # recv-window-size = 8
+  # concurrent-accept-session = 4096
+  # open-session-timeout = "2s"
+  # session-select-timeout = "10s"
+  data-ack-timeout = "60s"
+  # tcp-dial-timeout = "5s"
+  # tls-enable = false
+  # tls-insecure-skip-verify = false
+  # tls-client-auth = false
+  # tls-certificate = ""
+  # tls-private-key = ""
+  # tls-server-name = ""
+  # conn-pool-size = 4
+  # tls-client-certificate = ""
+  # tls-client-private-key = ""
+  # tls-ca-root = ""
+
+# [castor]
+  # enabled = false
+  # pyworker-addr = ["addr-placeholder:6666"]  # format: ip:port
+  # connect-pool-size = 30  # connection pool to pyworker
+  # result-wait-timeout = 10  # unit: second
+# [castor.detect]
+  # algorithm = ['BatchDIFFERENTIATEAD','DIFFERENTIATEAD','IncrementalAD','ThresholdAD','ValueChangeAD']
+  # config_filename = ['detect_base']
+# [castor.fit_detect]
+  # algorithm = ['BatchDIFFERENTIATEAD','DIFFERENTIATEAD','IncrementalAD','ThresholdAD','ValueChangeAD']
+  # config_filename = ['detect_base']
+
+# [sherlock]
+  # sherlock-enable = false
+  # collect-interval = "10s"
+  # cpu-max-limit = 95
+  # dump-path = "/tmp"
+# [sherlock.cpu]
+  # enable = false
+  # min = 30
+  # diff = 25
+  # abs = 70
+  # cool-down = "10m"
+# [sherlock.memory]
+  # enable = false
+  # min = 25
+  # diff = 25
+  # abs = 80
+  # cool-down = "10m"
+# [sherlock.goroutine]
+  # enable = false
+  # min = 10000
+  # diff = 20
+  # abs = 20000
+  # max = 100000
+  # cool-down = "30m"
+
+#[clv_config]
+  # enabled = false
+  # q-max is maximum token length of V-token(Variable Length Token) tokenizer.
+  # q-max = 7
+  # document-count indicates how many documents are collected for generating V-token tokenizer.
+  # document-count = 500000
+  # token-threshold indicates the pruning frequency of all tokens for the collected documents.
+  # token-threshold = 100
+
+
+[io-detector]
+  # paths = []
+
+[spec-limit]
+  enable-query-when-exceed = true
+  query-series-limit = 0
+  query-schema-limit = 0
+
+[subscriber]
+  # enabled = true
+  # http-timeout = "30s"
+  # insecure-skip-verify = true
+  # https-certificate = ""
+  # write-buffer-size = 100
+  # write-concurrency = 15

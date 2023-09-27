@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    node: {{ .Values.opengemini.metaSql.name }}
+  name: {{ .Values.opengemini.metaSql.name }}-nodeport
+  namespace: {{ .Values.opengemini.namespace }}
+spec:
+  ports:
+    - name: sql
+      port: 8086
+      protocol: TCP
+      targetPort: 8086
+      nodePort: {{ .Values.opengemini.metaSql.sqlNodePort }}
+  selector:
+    node: {{ .Values.opengemini.metaSql.name }}
+  sessionAffinity: None
+  type: NodePort

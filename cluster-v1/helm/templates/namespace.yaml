@@ -1,0 +1,8 @@
+{{- if .Values.opengemini.createNamespace -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.opengemini.namespace }}
+  labels:
+    name: {{ .Values.opengemini.namespace }}
+{{- end }}

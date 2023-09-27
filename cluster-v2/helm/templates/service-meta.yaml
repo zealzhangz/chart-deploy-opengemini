@@ -1,0 +1,23 @@
+{{- range .Values.opengemini.meta.nodeNames }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    node: {{ . }}
+  name: {{ . }}
+  namespace: {{ $.Values.opengemini.namespace }}
+spec:
+  ports:
+    - name: meta-8092
+      port: 8092
+    - name: meta-8091
+      port: 8091
+    - name: meta-8010
+      port: 8010
+    - name: meta-8088
+      port: 8088      
+  selector:
+    node: {{ . }}
+  sessionAffinity: None
+{{- end }}  

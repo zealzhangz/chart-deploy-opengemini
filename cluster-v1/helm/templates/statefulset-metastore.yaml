@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    node: {{ .Values.opengemini.metaStore.name }}
+  name: {{ .Values.opengemini.metaStore.name }}
+  namespace: {{ .Values.opengemini.namespace }}
+spec:
+  replicas: 1
+  serviceName: {{ .Values.opengemini.metaStore.name }}
+  selector:
+    matchLabels:
+      node: {{ .Values.opengemini.metaStore.name }}
+  template:
+    metadata:
+      labels:
+        node: {{ .Values.opengemini.metaStore.name }}
+    spec:
+      containers:
+        - env:
+            - name: OPEN_GEMINI_LAUNCH
+              value: "ts-meta,ts-store"
+            - name: CPU_NUMBER
+              value: "{{ .Values.opengemini.metaStore.cpuNumber }}"
+            - name: MEMORY_SIZE
+              value: "{{ .Values.opengemini.metaStore.memorySize }}"
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: "{{ .Values.opengemini.image }}"
+          volumeMounts:
+            - name: metasqlstore-config
+              mountPath: /opt/openGemini/config/openGemini.conf.default
+              subPath: openGemini.conf.default
+            - name: metasqlstore-config
+              mountPath: /opt/openGemini/config/weakpasswd.properties
+              subPath: weakpasswd.properties
+            - name: data-storage
+              mountPath: /opt/openGemini/data
+            - name: log-storage
+              mountPath: /opt/openGemini/logs             
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - ps aux | grep meta | grep -v grep && ps aux | grep store | grep -v grep
+            periodSeconds: 10
+            initialDelaySeconds: 10
+          imagePullPolicy: {{ .Values.opengemini.metaStore.pullPolicy }}
+          name: {{ .Values.opengemini.metaStore.name }}
+          ports:
+            - name: store-write
+              containerPort: 8400
+            - name: store-query
+              containerPort: 8401
+            - name: meta-8092
+              containerPort: 8092
+            - name: meta-8091
+              containerPort: 8091
+            - name: store-8011
+              containerPort: 8011
+            - name: meta-8010
+              containerPort: 8010
+            - name: meta-8088
+              containerPort: 8088
+          resources:
+            limits:
+              memory: 16Gi
+            requests:
+              memory: 16Gi
+      volumes:
+        - name: metasqlstore-config
+          configMap:
+            name: metasqlstore-config-map
+        - name: data-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.opengemini.metaStore.name }}-data-pvc
+        - name: log-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.opengemini.metaStore.name }}-log-pvc            
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

@@ -1,0 +1,15 @@
+{{- range .Values.opengemini.meta.nodeNames }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ . }}-log-pvc
+  namespace: {{ $.Values.opengemini.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ $.Values.opengemini.storageClassName }}
+  resources:
+    requests:
+      storage: {{ $.Values.opengemini.meta.logStorageSize }}
+{{- end }}       

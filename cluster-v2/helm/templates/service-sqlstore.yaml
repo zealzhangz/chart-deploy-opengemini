@@ -1,0 +1,19 @@
+{{- range .Values.opengemini.sqlStore.nodeNames }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    node: {{ . }}
+  name: {{ . }}
+  namespace: {{ $.Values.opengemini.namespace }}
+spec:
+  ports:
+    - name: store-write
+      port: 8400
+    - name: store-query
+      port: 8401     
+  selector:
+    node: {{ . }}
+  sessionAffinity: None
+{{- end }}  

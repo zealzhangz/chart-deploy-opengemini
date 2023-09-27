@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.opengemini.metaSql.name }}-data-pvc
+  namespace: {{ .Values.opengemini.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ .Values.opengemini.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.opengemini.metaSql.dataStorageSize }}

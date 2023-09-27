@@ -1,0 +1,32 @@
+# Default values for opengemini.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+opengemini:
+  createNamespace: false # 默认不创建Namespace
+  namespace: yth-opengemini
+  image: yth.harbor.com:9443/opengemini/opengemini:v1.1.0-rc1-v2-20230927132335
+  pullPolicy: IfNotPresent
+  storageClassName: xsky-iscsi-sc
+  meta:          # Node1：包含 ts-meta
+    name: meta
+    dataStorageSize: 20Mi
+    logStorageSize: 20Mi
+    cpuNumber: 1
+    memorySize: 1G
+    nodeNames:
+      - meta1
+      - meta2
+      - meta3      
+  sqlStore:               # Node2：包含 ts-sql,ts-store
+    name: sql-store
+    sqlNodePorts:
+      - 30980
+      - 30981
+    dataStorageSize: 20Mi
+    logStorageSize: 20Mi
+    cpuNumber: 1
+    memorySize: 1G
+    nodeNames:
+      - sqlstore1
+      - sqlstore2

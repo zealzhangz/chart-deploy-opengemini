@@ -1,0 +1,21 @@
+{{- range $index, $value := .Values.opengemini.sqlStore.nodeNames }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    node: {{ $value }}
+  name: {{ $value }}-nodeport
+  namespace: {{ $.Values.opengemini.namespace }}
+spec:
+  ports:
+    - name: sql
+      port: 8086
+      protocol: TCP
+      targetPort: 8086
+      nodePort: {{ index $.Values.opengemini.sqlStore.sqlNodePorts $index }}
+  selector:
+    node: {{ $value }}
+  sessionAffinity: None
+  type: NodePort
+{{- end }}   

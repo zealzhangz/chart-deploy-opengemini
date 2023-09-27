@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: metasqlstore-config-map
+  namespace: {{ .Values.opengemini.namespace }}
+data:
+{{ tpl ((.Files.Glob "config/openGemini.conf.default").AsConfig) . | indent 2 }}
+{{ (.Files.Glob "config/weakpasswd.properties").AsConfig | indent 2  }}
