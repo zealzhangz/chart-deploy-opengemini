@@ -131,7 +131,7 @@ helm install my-opengemini .
 # 查看
 helm list
 # 删除集群（删除集群会连通数据一起删除，谨慎操作）
-helm delete my-opengemin
+helm delete my-opengemini
 ```
 
 ### 7. 访问集群
