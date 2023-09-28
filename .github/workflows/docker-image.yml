@@ -14,10 +14,15 @@ on:
 
 jobs:
   build-opengemini-docker-image:
-    if: inputs.version == 'v1'
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "VERSION:v1: $VERSION"
-        env:
-          VERSION: ${{ inputs.version }}
+    - uses: actions/checkout@v3
+      
+    - name: Build the openGemini v1 Docker image
+      if: inputs.version == 'v1'
+      run: echo v1
+
+
+    - name: Build the openGemini v2 Docker image
+      if: inputs.version == 'v1'
+      run: echo v2
