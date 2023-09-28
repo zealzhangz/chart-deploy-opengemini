@@ -24,7 +24,7 @@ jobs:
     - name: Build the openGemini v1 Docker image
       if: inputs.version == 'v1'
       run: |
-        BUILD_TIMESTAMP = `date +%Y%m%d%H%M%S'`
+        BUILD_TIMESTAMP = $(date +%Y%m%d%H%M%S)
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         docker build . --file cluster-v1/Dockerfile --tag zealzhangz/opengemini-1.1.0-rc1-v1:$BUILD_TIMESTAMP
         docker tag zealzhangz/opengemini-1.1.0-rc1-v1:$BUILD_TIMESTAMP zealzhangz/opengemini-1.1.0-rc1-v1:latest
@@ -34,7 +34,7 @@ jobs:
     - name: Build the openGemini v2 Docker image
       if: inputs.version == 'v2'
       run: |
-        BUILD_TIMESTAMP = `date +%Y%m%d%H%M%S'`
+        BUILD_TIMESTAMP = $(date +%Y%m%d%H%M%S)
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         docker build . --file cluster-v2/Dockerfile --tag zealzhangz/opengemini-1.1.0-rc1-v2:$BUILD_TIMESTAMP
         docker tag zealzhangz/opengemini-1.1.0-rc1-v2:$BUILD_TIMESTAMP zealzhangz/opengemini-1.1.0-rc1-v2:latest
