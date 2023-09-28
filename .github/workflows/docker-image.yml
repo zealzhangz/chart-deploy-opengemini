@@ -1,0 +1,23 @@
+name: Build openGemini docker image
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Choose vesion'
+        required: true
+        default: 'v2'
+        type: choice
+        options:
+        - v1
+        - v2
+
+jobs:
+  build-opengemini-docker-image:
+    if: inputs.version == 'v1'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "VERSION:v1: $VERSION"
+        env:
+          VERSION: ${{ inputs.version }}
