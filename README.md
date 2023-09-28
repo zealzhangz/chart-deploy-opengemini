@@ -54,7 +54,7 @@
    opengemini:
      createNamespace: false # 默认不创建Namespace，设置值为true会创建k8s Namespace
      namespace: yth-opengemini # k8s Namespace
-     image: yth.harbor.com:9443/opengemini/opengemini:v1.1.0-rc1-20230925171156 # 镜像
+     image: zealzhangz/opengemini-1.1.0-rc1-v1:latest # 镜像
      pullPolicy: IfNotPresent  # 镜像拉取策略
      storageClassName: xsky-iscsi-sc  #！！！重要！！！设置自己 k8s 可用的 StorageClass
      metaSqlStore:          # Node1：包含 ts-meta,ts-sql,ts-store
@@ -95,7 +95,7 @@
    opengemini:
      createNamespace: false # 默认不创建Namespace，设置值为true会创建k8s Namespace
      namespace: yth-opengemini # k8s Namespace
-     image: yth.harbor.com:9443/opengemini/opengemini:v1.1.0-rc1-v2-20230927132335 # 镜像
+     image: zealzhangz/opengemini-1.1.0-rc1-v2:latest # 镜像
      pullPolicy: IfNotPresent  # 镜像拉取策略
      storageClassName: xsky-iscsi-sc   #！！！重要！！！设置自己 k8s 可用的 StorageClass
      meta:          # Node1：包含 ts-meta
