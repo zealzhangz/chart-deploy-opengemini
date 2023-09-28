@@ -17,12 +17,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      env:
+        DOCKER_USER: ${{secrets.MY_DOCKER_HUB_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.MY_DOCKER_HUB_SECRET}}          
       
     - name: Build the openGemini v1 Docker image
       if: inputs.version == 'v1'
-      run: echo v1
-
+      run: |
+        BUILD_TIMESTAMP=$(date +%Y%m%d%H%M%S)
+        echo ${{ secrets.MY_DOCKER_HUB_SECRET }} | docker login -u ${{ secrets.MY_DOCKER_HUB_USERNAME }} --password-stdin
+        docker build . --file cluster-v1/Dockerfile --tag zealzhangz/opengemini-1.1.0-rc1-v1:$BUILD_TIMESTAMP
+        docker tag zealzhangz/opengemini-1.1.0-rc1-v1:$BUILD_TIMESTAMP zealzhangz/opengemini-1.1.0-rc1-v1:latest
+        docker push zealzhangz/opengemini-1.1.0-rc1-v1:$BUILD_TIMESTAMP
+        docker push zealzhangz/opengemini-1.1.0-rc1-v1:latest
 
     - name: Build the openGemini v2 Docker image
-      if: inputs.version == 'v1'
-      run: echo v2
+      if: inputs.version == 'v2'
+      run: |
+        BUILD_TIMESTAMP=$(date +%Y%m%d%H%M%S)
+        echo ${{ secrets.MY_DOCKER_HUB_SECRET }} | docker login -u ${{ secrets.MY_DOCKER_HUB_USERNAME }} --password-stdin
+        docker build . --file cluster-v2/Dockerfile --tag zealzhangz/opengemini-1.1.0-rc1-v2:$BUILD_TIMESTAMP
+        docker tag zealzhangz/opengemini-1.1.0-rc1-v2:$BUILD_TIMESTAMP zealzhangz/opengemini-1.1.0-rc1-v2:latest
+        docker push zealzhangz/opengemini-1.1.0-rc1-v2:$BUILD_TIMESTAMP
+        docker push zealzhangz/opengemini-1.1.0-rc1-v2:latest
