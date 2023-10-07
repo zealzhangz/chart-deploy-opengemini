@@ -5,7 +5,7 @@
 opengemini:
   createNamespace: false # 默认不创建Namespace
   namespace: yth-opengemini
-  image: zealzhangz/opengemini-1.1.0-rc1-v1:latest
+  image: zealzhangz/opengemini-1.1.0-v1:latest
   pullPolicy: IfNotPresent
   storageClassName: my-sc
   metaSqlStore:          # Node1：包含 ts-meta,ts-sql,ts-store
