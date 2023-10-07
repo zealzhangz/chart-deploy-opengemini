@@ -4,7 +4,7 @@
 
 ### 1.版本说明
 
-当前 `openGemini` 社区最新[版本](https://github.com/openGemini/openGemini/tags)为 `1.1.0-rc1`，以下镜像基于`1.1.0-rc1`制作。
+当前 `openGemini` 社区最新[版本](https://github.com/openGemini/openGemini/tags)为 `1.1.0`，以下镜像基于`1.1.0`制作。
 
 ### 2. 部署架构
 
@@ -54,7 +54,7 @@
    opengemini:
      createNamespace: false # 默认不创建Namespace，设置值为true会创建k8s Namespace
      namespace: my-opengemini # k8s Namespace
-     image: zealzhangz/opengemini-1.1.0-rc1-v1:latest # 镜像
+     image: zealzhangz/opengemini-1.1.0-v1:latest # 镜像
      pullPolicy: IfNotPresent  # 镜像拉取策略
      storageClassName: my-sc  #！！！重要！！！设置自己 k8s 可用的 StorageClass
      metaSqlStore:          # Node1：包含 ts-meta,ts-sql,ts-store
@@ -95,7 +95,7 @@
    opengemini:
      createNamespace: false # 默认不创建Namespace，设置值为true会创建k8s Namespace
      namespace: my-opengemini # k8s Namespace
-     image: zealzhangz/opengemini-1.1.0-rc1-v2:latest # 镜像
+     image: zealzhangz/opengemini-1.1.0-v2:latest # 镜像
      pullPolicy: IfNotPresent  # 镜像拉取策略
      storageClassName: my-sc   #！！！重要！！！设置自己 k8s 可用的 StorageClass
      meta:          # Node1：包含 ts-meta
