@@ -1,10 +1,10 @@
 [common]
   meta-join = ["meta_addr_1:8092", "meta_addr_2:8092", "meta_addr_3:8092"]
   # the shared storage-based store whether support HA.
-  # SQL: control read and write to right store
-  # STORE: control whether DBPT autoload
-  # META: control whether to takeover
-  # ha-enable = false
+  # write-available-first: if pt is mark offline, request will skip this pt
+  # shared-storage: if pt is mark offline, request will retry until pt online
+  # replication: request will retry until replication group has master
+  # ha-policy = "write-available-first"
   # executor-memory-size-limit = "0"
   # executor-memory-wait-time = "0s"
   # pprof-enabled = false
@@ -39,7 +39,11 @@
   # https-private-key = ""
   # ptnum-pernode = 1
 
-[coordinator]
+  # Switch for serial balance and parallel balance
+  # The default is "v1.1" of parallel balance, Serial balance is used only for setting "v1.0", Other settings use default parallel balance
+  # balance-algorithm-version = "v1.1"
+
+# [coordinator]
   # write-timeout = "10s"
   # shard-writer-timeout = "10s"
   # shard-mapper-timeout = "10s"
@@ -73,6 +77,7 @@
   # https-certificate = ""
   # https-private-key = ""
   # time-filter-protection = false
+  # parallel-query-in-batch-enabled = true
 
 [data]
   store-ingest-addr = "addr-placeholder:8400"
@@ -131,9 +136,16 @@
   # Determines whether the lazy shard open is enabled.
   lazy-load-shard-enable = true
 
-  # The time range for thermal shards.
+  ## The time range for thermal shards. If the duration is set to 0s, the default value is shard group duration of the first RP.
   # thermal-shard-start-duration = "0s"
   # thermal-shard-end-duration = "0s"
+
+  ## If queries are auto killed for store service
+  # interrupt-query = true
+  ## The default store mem percent threshold of start killing query
+  # interrupt-sql-mem-pct = 90
+  ## The default time interval of checking store mem use
+  # proactive-manager-interval = "3s"
 
 # [data.ops-monitor]
   # store-http-addr = "addr-placeholder:8402"
@@ -268,3 +280,17 @@
   # https-certificate = ""
   # write-buffer-size = 100
   # write-concurrency = 15
+
+###
+### [continuous_queries]
+###
+### Controls how continuous queries are run within openGemini.
+###
+
+[continuous_queries]
+  ## Determines whether the continuous queries service is enabled.
+  # enabled = false
+  ## The interval for how often continuous queries will be checked if they need to run.
+  # run-interval = "1s"
+  ## concurrent exec continues queries goroutines number. Default 1/3 of cpu number, at least 1 and at most 5.
+  # max-process-CQ-number = 0
